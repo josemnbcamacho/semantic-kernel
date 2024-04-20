@@ -51,7 +51,9 @@ internal sealed class ChatMessage : IChatMessage
         this.Role = model.Role;
         this.ContentType = content.Text == null ? ChatMessageType.Image : ChatMessageType.Text;
         this.Content = content.Text?.Value ?? content.Image?.FileId ?? string.Empty;
-        this.Properties = new ReadOnlyDictionary<string, object>(model.Metadata);
+        this.Properties = model.Metadata ?
+                            new ReadOnlyDictionary<string, object>(model.Metadata) :
+                            new ReadOnlyDictionary<string, object>();
     }
 
     private sealed class Annotation(string label, int startIndex, int endIndex, string fileId, string? quote) : IAnnotation
